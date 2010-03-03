@@ -1,0 +1,1 @@
+{'src/web/mod_eventful', [{outdir, "ebin"},{i,"/lib/ejabberd/include"},{i,"/lib/ejabberd/include/web"}]}.
