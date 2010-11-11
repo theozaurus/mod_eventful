@@ -27,13 +27,25 @@
 %%%----------------------------------------------------------------------
 
 set_presence_log(User, Server, Resource, Presence) ->
-    ?INFO_MSG("set_presence_triggered user: ~p, server: ~p, resource: ~p, presence: ~p", [User, Server, Resource, Presence]),
     post_results(set_presence_hook, User, Server, Resource, lists:flatten(xml:element_to_string(Presence))),
+    case ejabberd_sm:get_user_resources(User,Server) of
+        [_] ->        
+            %%% First connection, so user has just come online
+            post_results(online_hook, User, Server, Resource, lists:flatten(xml:element_to_string(Presence)));
+        _ ->
+            false
+    end,
     ok.
 
 unset_presence_log(User, Server, Resource, Status) ->
-    ?INFO_MSG("unset_presence_triggered user: ~p, server: ~p, resource: ~p, status: ~p", [User, Server, Resource, Status]),
     post_results(unset_presence_hook, User, Server, Resource, Status),
+    case ejabberd_sm:get_user_resources(User,Server) of
+        [] ->
+            %%% No more connections, so user is totally offline
+            post_results(offline_hook, User, Server, Resource, Status);
+        _ ->
+            false
+    end,
     ok.
     
 %%%----------------------------------------------------------------------
@@ -56,16 +68,20 @@ post_results(Event, User, Server, Resource, Message) ->
            "&server="   ++ ejabberd_http:url_encode(Server) ++
            "&resource=" ++ ejabberd_http:url_encode(Resource) ++ 
            "&message="  ++ ejabberd_http:url_encode(Message),
-    if is_list(Url) ->
-        http:request(
-            post, {
-                Url,
-                Headers,
-                "application/x-www-form-urlencoded", Data
-            },
-            [],
-            []
-        )
+    case is_list(Url) of
+        true ->
+            ?INFO_MSG("Triggered: ~p, user: ~p, server: ~p, resource: ~p, message: ~p",[Event, User, Server, Resource, Message]),
+            http:request(
+                post, {
+                    Url,
+                    Headers,
+                    "application/x-www-form-urlencoded", Data
+                },
+                [],
+                []
+            );
+        false ->
+            false
     end,
     
     ok.
