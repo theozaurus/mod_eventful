@@ -43,6 +43,11 @@ unset_presence_log(User, Server, Resource, Status) ->
     case ejabberd_sm:get_user_resources(User,Server) of
         [] ->
             %%% No more connections, so user is totally offline
+            %%% This occurs when a BOSH connection timesout
+            post_results(offline_hook, User, Server, Resource, Status);
+        [Resource] ->
+            %%% We know that 'Resource' is no longer online, so can treat as if user is totally offline
+            %%% This occurs when a user logs out
             post_results(offline_hook, User, Server, Resource, Status);
         _ ->
             false
