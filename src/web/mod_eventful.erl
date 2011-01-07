@@ -1,8 +1,9 @@
 %%%------------------------------------------------------------------------
-%%% File    : mod_warm_bindings.erl
+%%% File    : mod_eventful.erl
 %%% Author  : Theo Cushion <theo@jivatechnology.com>
 %%%         : Nicolas Alpi <nicolas.alpi@gmail.com>
-%%% Purpose : Enables the creation of authenticated BOSH sessions via HTTP
+%%% Purpose : Enables events triggered within ejabberd to generate HTTP
+%%%           POST requests to an external service.
 %%% Created : 29/03/2010
 %%%------------------------------------------------------------------------
 
