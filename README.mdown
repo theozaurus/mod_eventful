@@ -1,0 +1,56 @@
+Description
+===========
+
+mod_eventful is an ejabberd module that listens for certain events, and sends the details of these via HTTP to another service. This allows internal events inside ejabberd to trigger actions on external services. There is also support for basic access authentication on the HTTP requests to help provide a simple layer of security for the actions on your external service.
+
+Events supported
+================
+
+- set_presence_hook: Triggered whenever a client changes their presence
+- unset_presence_hook: Triggered whenever a client goes offline
+- online_hook: Triggered when a client comes online, and there are no other clients online with the same bare jid
+- offline_hook: Triggered when a client goes offline, and there are no other clients online with the same bare jid
+
+Supports
+========
+
+- ejabberd 2.1.x
+
+Installation
+============
+
+Make sure that ejabberd is already installed. The build script assumes it lives at /lib/ejabberd
+
+    $ git clone git://github.com/theozaurus/mod_eventful.git
+    $ cd mod_eventful
+    $ ./build.sh
+    $ sudo cp ebin/*.beam /lib/ejabberd/ebin
+
+Update the configuration in `/etc/ejabberd/ejabberd.cfg` and restart ejabberd
+
+Example Configuration
+=====================
+
+    %%%   =======
+    %%%   MODULES
+
+    {modules,
+     [
+      ...
+      {mod_eventful, [
+          {url, [
+            {online_hook, "http://localhost/users/online"},
+            {offline_hook, "http://localhost/users/offline"},
+            {unset_presence_hook, undefined},
+            {set_presence_hook, undefined}
+          ]},
+          {user,     "HTTP BASIC USERNAME"},
+          {password, "HTTP BASIC PASSWORD"}]},
+      ...
+    ]}.
+
+TODO
+====
+
+- Add support for more events
+- Add support for other protocols (AMQP,...) 
