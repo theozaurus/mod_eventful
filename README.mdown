@@ -6,10 +6,11 @@ mod_eventful is an ejabberd module that listens for certain events, and sends th
 Events supported
 ================
 
-- set_presence_hook: Triggered whenever a client changes their presence
-- unset_presence_hook: Triggered whenever a client goes offline
-- online_hook: Triggered when a client comes online, and there are no other clients online with the same bare jid
-- offline_hook: Triggered when a client goes offline, and there are no other clients online with the same bare jid
+- set_presence_hook: Triggered whenever a client changes their presence.
+- unset_presence_hook: Triggered whenever a client goes offline.
+- online_hook: Triggered when a client comes online, and there are no other clients online with the same bare jid.
+- offline_hook: Triggered when a client goes offline, and there are no other clients online with the same bare jid.
+- message_hook: Triggered whenever a user sends a message, either in a MUC or normally.
 
 Supports
 ========
@@ -42,7 +43,8 @@ Example Configuration
             {online_hook, "http://localhost/users/online"},
             {offline_hook, "http://localhost/users/offline"},
             {unset_presence_hook, undefined},
-            {set_presence_hook, undefined}
+            {set_presence_hook, undefined},
+            {message_hook, "http://localhost/messages"}
           ]},
           {user,     "HTTP BASIC USERNAME"},
           {password, "HTTP BASIC PASSWORD"}]},
