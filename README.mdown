@@ -20,12 +20,12 @@ Supports
 Installation
 ============
 
-Make sure that ejabberd is already installed. The build script assumes it lives at /lib/ejabberd
+Make sure that ejabberd is already installed. The build script assumes it lives at /usr/lib/ejabberd
 
     $ git clone git://github.com/theozaurus/mod_eventful.git
     $ cd mod_eventful
     $ ./build.sh
-    $ sudo cp ebin/*.beam /lib/ejabberd/ebin
+    $ sudo cp ebin/*.beam /usr/lib/ejabberd/ebin
 
 Update the configuration in `/etc/ejabberd/ejabberd.cfg` and restart ejabberd
 
