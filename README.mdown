@@ -1,3 +1,8 @@
+DEPRECATED
+==========
+
+This code has not been touched in 3 years. I no longer use ejabberd, or erlang. Please do not use this project in production.
+
 Description
 ===========
 
@@ -51,8 +56,3 @@ Example Configuration
       ...
     ]}.
 
-TODO
-====
-
-- Add support for more events
-- Add support for other protocols (AMQP,...) 
